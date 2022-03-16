@@ -1,0 +1,52 @@
+Para receber e testar RARS *.asm files and use RARS to test it no Mooshak:
+
+Em languages defs:
+MaxCompFork: 10
+MaxExecFork: 100
+MaxCore: 0
+MaxData: 100000000
+MAxOutput: 512000
+MaxStack: 838808
+MaxProg: 2100000
+RealTimeOut: 60
+CompTimeOut: 60
+ExecTimeout: 5
+MinUID: 30000
+MaxUID: 60000
+
+Na linguagem RARS_RISC_V:
+
+Name: RARS RISC-V simulator
+Extension: asm
+Compiler: RARS
+Version: rars_533d3c0
+Compile: /bin/true
+Execute: /usr/bin/java -jar $home/contrib/rars_533d3c0.jar me $file 2> /dev/null
+Data:    200000000    #Needed in Ualg mooshak, bbut NOT on local Language DEFS are  Equal Why ???
+Fork:	 
+Omit:	
+UID:
+
+#		Note: Need to clear stderr '2> /dev/null' to avoid warning on set utils.prefs with #			  usr "nobody", with uid defined by mooshak [MinUID, MaxUID], different than #			  mooshak uid, which will give RUNTIME ERROR
+
+
+Na linguagem RARS_ZIP:
+
+Name: RARS RISC-V simulator zipped
+Extension: zip
+Compiler: RARS
+Version: rars_533d3c0
+Compile: /bin/bash $home/contrib/myrars.sh $home $file $extension $environment 2>assemble.err
+Execute: /bin/bash run.sh 2> run.err
+Data:    200000000    #Needed in Ualg mooshak, bbut NOT on local Language DEFS are  Equal Why ???
+Fork:	 
+Omit:	
+UID:
+
+# 		Note1:  Needed to separate in compile and execute, because in execute there
+#				is no access permitions to Environment file in problem folder
+#
+#		Note2:  If willing to detect errors when running scripts, redirect stderr
+#				to files in the submission directory
+#
+
