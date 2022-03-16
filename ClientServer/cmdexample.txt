@@ -1,0 +1,11 @@
+#cmd line
+
+./myc.sh '/usr/bin/gcc -Wall -lm' . t.tar.gz .gz env.c '-lpthread'
+
+
+#mooshak
+
+/bin/bash myC.sh '/usr/bin/g++ -Wall -lm' $home $file $extension
+/$environment '-lpthread'
+
+
