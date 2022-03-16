@@ -7,7 +7,7 @@
 #
 # Helder Daniel						
 # hdaniel@ualg.pt
-# March 2020
+
 
 Submission="$1"
 Program="$2"
