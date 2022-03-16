@@ -1,0 +1,18 @@
+Para habilitar a devolução do relatório é necessário habilitar a execução do script <mooshak>/contrib/myreport.sh pelo mooshak.
+Para isso é necessário chamar esse script a partir da função de análise do mooshak, que se encontra no ficheiro: 
+
+<mooshak>/packages/classes/Submission.tcl
+
+No final desta função, na linha 415, adicionar o código seguinte:
+
+## Analyze a submission, records Result and Observations and produces a report
+Operation Submission::analyze { {service 0} {language ""} } {
+	variable Contest
+#(...)
+
+#(end row 415)ew code:
+#N
+	#Add report to submitted files that can be downloaded by user
+	#If it is NOT a zip, if not DOES not return report
+	exec contrib/myreport.sh ${_Self_}  ${_Self_}/$Program  ${_Self_}/$Report  $Contest/problems/$Problem
+}
