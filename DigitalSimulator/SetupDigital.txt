@@ -1,0 +1,33 @@
+Para receber Digital simulator dig files and use Digital to test it no Mooshak:
+
+Em languages defs:
+MaxCompFork: 10
+MaxExecFork: 100
+MaxCore: 0
+MaxData: 100000000
+MAxOutput: 512000
+MaxStack: 838808
+MaxProg: 2100000
+RealTimeOut: 60
+CompTimeOut: 60
+ExecTimeout: 5
+MinUID: 30000
+MaxUID: 60000
+
+Na linguagem Digital:
+
+Name: Digital circuit simulator
+Extension: dig
+Compiler: Digital
+Version: 0.28
+Compile: /bin/true
+Execute: /bin/bash $home/contrib/mydigital.sh $file
+Data:
+Fork:	
+Omit:	
+UID:
+
+Em cada problema colocar um *.dig com os casos de testes, named: input
+output:
+passed <with a traling NL>
+
