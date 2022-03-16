@@ -32,7 +32,6 @@
 #
 # Helder Daniel						
 # hdaniel@ualg.pt
-# January 2022
 
 
 #MacOsX
