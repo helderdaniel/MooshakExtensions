@@ -1,0 +1,13 @@
+#Call:
+
+          myjava.sh   <mooshak dir> <submission_file> <extension> <problem_environment>
+
+#mooshak:
+          
+/bin/bash myjava.sh   $home         $file             $extension  $environment
+
+
+#cmd line
+
+	   myjava.sh   /home/mooshak/   src.zip           .zip     data/contests/POO1920/problems/P3/Environment
+
