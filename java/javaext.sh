@@ -33,8 +33,7 @@
 #
 # Helder Daniel						
 # hdaniel@ualg.pt
-# September 2012
-# April 2021
+
 
 xtraZipDir=__MACOSX
 extraCodeName="MooshakTester"
