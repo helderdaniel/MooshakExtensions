@@ -3,48 +3,66 @@
 # This script prepares a report to be sent to the user 
 # along with the source code (IF it is a zip file)
 #
-# Note:Excludes test folders started by H* from report
+# call:
+#
+# 	report.sh <submissionFolder> <submissionFolder/submittedZipFile> <submissionFolder/reportHTMLfile> <contestFolder/problems/problemFolder>
+#
+# example:
+#
+#	myreport.sh /home/jvo/data/contests/POO2324/submissions/03214519_Z_had 
+#		    /home/jvo/data/contests/POO2324/submissions/03214519_Z_had/src.zip
+#		    /home/jvo/data/contests/POO2324/submissions/03214519_Z_had/1.html
+#		    /home/jvo/data/contests/POO2324/problems/Z
 #
 # Helder Daniel						
 # hdaniel@ualg.pt
-
+# v1 March 2020
+# v2 April 2022
+# v3 July  2024
 
 Submission="$1"
 Program="$2"
 Report="$3"
 Problem="$4"
+testInfoFileName=".data.tcl"
+inputSuf="input"
+filter="[^H]*"   #Exclude folder started by H*
 
-filter="[^H]*"   #Exclude test folder started by H* from report
-
-hide=0	#Number of hidden test inputs
-hidef=$(($hide+1))
 
 ftype=$(file $Program | cut -d' ' -f2)
 
 #If it is NOT a zip, DOES not return report
 if [ "$ftype" == "Zip" ]; then
-  chmod 600 $Program
+	chmod 600 $Program
 
-  #Add report to zip
-  /usr/bin/zip -uj  $Program  $Report
+	#Add report to zip
+	/usr/bin/zip -uj  $Program  $Report
 
-  #Add output error 
-  /usr/bin/zip -uj  $Program  $Submission/*.err
+	#Add output error 
+	/usr/bin/zip -uj  $Program  $Submission/*.err
 
-  #Add tests inputs to zip
-  cp -r $Problem/tests $Submission
-  testFolders=$(find $Submission/tests/$filter -name input | sort)
-  testFolders=$(echo $testFolders | rev | cut -d' ' -f$hidef- | rev)
+	#Get test file info names
+        testInfoFiles=$(find $Problem/tests/$filter -name $testInfoFileName | sort) 	
 
-  for i in $testFolders; do
-    new=${Submission}/tests/$(echo $i | rev | cut -d / -f 2 | rev)input
-    mv $i $new
-  done
-
-  zip -uj  $Program  $Submission/tests/*input
-  rm -rf $Submission/tests
-
-  chmod 400 $Program
+        #Add tests inputs to zip
+        for i in $testInfoFiles; do
+        	#Get test input filename, path and folder name
+        	path=$(echo $i | rev | cut -d'/' -f2- | rev)
+        	testFolder=$(echo $path | rev | cut -d'/' -f1 | rev)
+		inputFile=$(grep $inputSuf $i | rev | cut -d' ' -f1 | rev)
+		#echo $path/$inputFile
+		
+		#Add to zip
+		zip -uj  $Program  "$path/$inputFile"
+		
+		#rename to format: T?input
+		#https://stackoverflow.com/a/16710654/9567003
+		newInputFileName=$testFolder$inputSuf
+		#echo $newInputFileName
+		printf "@ "$inputFile"\n@="$newInputFileName"\n" | zipnote -w $Program
+        done
+        
+        chmod 400 $Program
 else
 	echo "Cannot add report to submission, submitted code is NOT a ZIP archive"
 fi
